@@ -79,10 +79,10 @@ public class QuotesController(
     private static QuoteResponse MapToResponse(QuoteEntity quote)
         => new()
         {
-            Id = quote.Id,
-            CustomerName = quote.CustomerName,
-            Premium = quote.Premium,
-            Status = quote.Status.ToString(),
+            QuoteId = quote.QuoteId,
+            EstimatedValue = quote.EstimatedValue,
+            InsuranceType = quote.InsuranceType,
+            Status = quote.Status,            
             CreatedAt = quote.CreatedAt
         };
 }
