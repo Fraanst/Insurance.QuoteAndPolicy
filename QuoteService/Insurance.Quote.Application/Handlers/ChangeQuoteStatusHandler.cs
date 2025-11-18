@@ -1,6 +1,5 @@
 ﻿using Insurance.Quote.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
-using Quote.Application.Handlers;
 using Quote.Domain.Interfaces.Repositories;
 
 public class ChangeQuoteStatusHandler(
@@ -18,12 +17,12 @@ public class ChangeQuoteStatusHandler(
             if (quote is null)
                 throw new KeyNotFoundException("Proposta não encontrada");
 
-            if (!quote.CanChangeStatusTo(newStatus))
-                throw new QuoteStatusChangeFailedException(quoteId, Enum.GetName(newStatus));
+            //if (!quote.CanChangeStatusTo(newStatus))
+            //    throw new QuoteStatusChangeFailedException(quoteId, Enum.GetName(newStatus));
 
-            quote.ChangeStatus(newStatus);
+            //quote.ChangeStatus(newStatus);
 
-            await quoteRepository.UpdateAsync(quote, cancellationToken);
+            await quoteRepository.UpdateStatusAsync(quote, cancellationToken);
 
         }
         catch (Exception ex)

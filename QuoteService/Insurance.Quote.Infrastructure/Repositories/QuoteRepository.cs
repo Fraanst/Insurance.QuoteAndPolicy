@@ -20,17 +20,12 @@ namespace Insurance.Quote.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<QuoteEntity>> GetByCustomerIdAsync(string customerId, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<QuoteEntity?> GetByIdAsync(Guid quoteId, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateStatusAsync(Guid quoteId, QuoteStatus status, CancellationToken cancellationToken = default)
+        public Task UpdateStatusAsync(QuoteEntity quote, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

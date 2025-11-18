@@ -25,7 +25,7 @@ public class QuotesController(
     {
         var quote = await createHandler.HandleAsync(mapper.Map<CreateQuoteCommand>(request), cancellationToken);
 
-        var response = MapToResponse(quote);
+        var response = mapper.Map<QuoteResponse>(quote);
 
         return CreatedAtAction(nameof(GetById), new { id = response.QuoteId }, response);
     }
@@ -35,7 +35,7 @@ public class QuotesController(
         CancellationToken cancellationToken)
     {
         var quotes = await listHandler.HandleAsync(cancellationToken);
-        var response = quotes.Select(MapToResponse);
+        var response = mapper.Map<QuoteResponse>(quotes);
         return Ok(response);
     }
 
@@ -45,11 +45,11 @@ public class QuotesController(
         CancellationToken cancellationToken)
     {
         var quote = await getByIdHandler.HandleAsync(id, cancellationToken);
-
         if (quote is null)
             return NotFound();
 
-        return Ok(MapToResponse(quote));
+        var response = mapper.Map<QuoteResponse>(quote);
+        return Ok(response);
     }
 
     [HttpPatch("{id:guid}/status")]

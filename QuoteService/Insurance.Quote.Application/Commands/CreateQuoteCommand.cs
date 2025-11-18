@@ -9,4 +9,3 @@
         public decimal EstimatedValue { get; set; }
     }
 }
-}
