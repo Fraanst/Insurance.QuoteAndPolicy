@@ -1,5 +1,7 @@
-﻿using Insurance.Quote.Api.Request;
+﻿using AutoMapper;
+using Insurance.Quote.Api.Request;
 using Insurance.Quote.Api.Response;
+using Insurance.Quote.Application.Commands;
 using Insurance.Quote.Application.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Quote.Application.Handlers;
@@ -13,20 +15,15 @@ public class QuotesController(
     CreateQuoteHandler createHandler,
     ChangeQuoteStatusHandler changeStatusHandler,
     ListQuotesHandler listHandler,
-    GetQuoteByIdHandler getByIdHandler) : ControllerBase
+    GetQuoteByIdHandler getByIdHandler,
+    IMapper mapper) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<QuoteResponse>> Create(
         [FromBody] CreateQuoteRequest request,
         CancellationToken cancellationToken)
     {
-        var quote = await createHandler.HandleAsync(
-            request.CustomerId,
-            request.ProductId,
-            request.InsuranceType,
-            request.Status,
-            request.EstimatedValue,
-            cancellationToken);
+        var quote = await createHandler.HandleAsync(mapper.Map<CreateQuoteCommand>(request), cancellationToken);
 
         var response = MapToResponse(quote);
 
@@ -75,14 +72,4 @@ public class QuotesController(
             return BadRequest(ex.Message);
         }
     }
-
-    private static QuoteResponse MapToResponse(QuoteEntity quote)
-        => new()
-        {
-            QuoteId = quote.QuoteId,
-            EstimatedValue = quote.EstimatedValue,
-            InsuranceType = quote.InsuranceType,
-            Status = quote.Status,            
-            CreatedAt = quote.CreatedAt
-        };
 }

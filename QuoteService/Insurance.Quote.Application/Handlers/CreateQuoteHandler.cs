@@ -1,39 +1,42 @@
-﻿using Quote.Domain.Entities;
+﻿using Insurance.Quote.Application.Commands;
+using Insurance.Quote.Domain.Exceptions;
+using Microsoft.Extensions.Logging;
+using Quote.Domain.Entities;
 using Quote.Domain.Interfaces.Repositories;
 
 namespace Quote.Application.Handlers
 {
-    public class CreateQuoteHandler
+    public class CreateQuoteHandler(
+        IQuoteRepository quoteRepository,
+        ILogger<CreateQuoteHandler> logger)
     {
-        private readonly IQuoteRepository _quoteRepository;
 
-        public CreateQuoteHandler(IQuoteRepository quoteRepository)
+        public async Task<QuoteEntity> HandleAsync(CreateQuoteCommand command, CancellationToken cancellationToken)
         {
-            _quoteRepository = quoteRepository;
-        }
-
-        public async Task<QuoteEntity> HandleAsync(
-            Guid customerId,
-            Guid productId,
-            string? insuranceType,
-            QuoteStatus status,
-            decimal estimatedValue,
-            CancellationToken cancellationToken)
-        {
-            var quote = new QuoteEntity
+            try
             {
-                QuoteId = Guid.NewGuid(),
-                CustomerId = customerId,
-                ProductId = productId,
-                InsuranceType = insuranceType,
-                Status = status,
-                EstimatedValue = estimatedValue,
-                CreatedAt = DateTime.UtcNow
-            };
+                logger.LogInformation("Iniciando criação da proposta");
 
-            await _quoteRepository.CreateAsync(quote, cancellationToken);
+                var quote = new QuoteEntity
+                {
+                    QuoteId = Guid.NewGuid(),
+                    CustomerId = command.CustomerId,
+                    ProductId = command.ProductId,
+                    InsuranceType = command.InsuranceType,
+                    Status = command.Status,
+                    EstimatedValue = command.EstimatedValue,
+                    CreatedAt = DateTime.UtcNow
+                };
 
-            return quote;
+                await quoteRepository.CreateAsync(quote, cancellationToken);
+
+                return quote;
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex, $"Erro ao alterar criar uma proposta");
+                throw new QuoteException($"Ocorreu um erro ao tentar criar uma proposta");
+            }
         }
     }
 }
