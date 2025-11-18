@@ -1,0 +1,151 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+
+# Build results
+bin/
+obj/
+out/
+build/
+artifacts/
+
+# Publish outputs
+*.pubxml
+*.pubxml.user
+*.pfx
+*.snk
+
+# Generated files
+*.dll
+*.exe
+*.exe.config
+*.dll.config
+*.dbmdl
+*.log
+*.cache
+*.bak
+*.tmp
+*.sqlite
+*.sqlite3
+*.ldf
+*.mdf
+
+# Roslyn
+*.ide
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated images/scaffolds
+*.svg
+*.png
+Generated/
+
+########################
+# Visual Studio
+########################
+.vs/
+.vscode/
+*.vsp
+*.vspscc
+*.vssscc
+*.ncb
+*.sdf
+*.opensdf
+*.cachefile
+*.db
+
+# Test logs
+TestResults/
+nunit-*.xml
+coverage/
+*.coverage
+*.coveragexml
+
+########################
+# NuGet
+########################
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+project.lock.json
+project.fragment.lock.json
+
+
+########################
+# Docker
+########################
+docker-compose.override.yml
+docker-compose.*.yml
+Dockerfile.*.backup
+.docker/
+.dockerignore-backup
+
+########################
+# Logs
+########################
+*.log
+logs/
+log/
+Log/
+LOG/
+
+########################
+# Secrets
+########################
+appsettings.Development.json
+appsettings.Local.json
+*.secret.json
+*.secrets.json
+secrets.json
+.env
+.env.*
+.env.local
+.env.development
+
+########################
+# Databases
+########################
+*.db
+*.sqlite
+*.sqlite3
+*.sqlproj
+*.bacpac
+*.dacpac
+*.ldf
+*.mdf
+
+########################
+# OS Files
+########################
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+########################
+# IDE Tools
+########################
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+########################
+# Other
+########################
+*.orig
+*.rej
+*.patch
+*.diff
+*.pid
+.temp/
+cache/
+/Insurance.Policy.Api/Properties
