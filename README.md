@@ -98,3 +98,20 @@ Execute o Docker Compose para fazer o *build* das APIs e iniciar todos os contê
 
 ```bash
 docker-compose up --build
+```
+
+### ⚠️ Sequência de Inicialização Crítica (Orquestração Garantida)
+Ao rodar o docker-compose up, os serviços são iniciados na seguinte ordem automática, garantindo a integridade dos dados:
+
+quote-db e policy-db (Bancos de Dados) iniciam.
+
+quote-migrator e policy-migrator rodam: Instalam o dotnet-ef dentro do contêiner e aplicam todas as Migrations pendentes.
+
+quote-seeder rodam (após o quote-migrator): Injeta o Customer e o Product iniciais no quote-db.
+
+quote-api e policy-api (APIs) iniciam e ficam prontas para aceitar requisições.
+
+### A Aplicação adiciona um Produto e um Cliente para que seja possível adicionar uma Proposta
+
+### Acesso e Teste da API
+Após a inicialização completa (os logs param de mostrar atividade de *-migrator e *-seeder), as APIs estão acessíveis via localhost:
