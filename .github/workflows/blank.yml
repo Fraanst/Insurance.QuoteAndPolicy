@@ -42,18 +42,6 @@ jobs:
       - name: Deployment Readiness Check
         run: echo "✅ Todos os testes unitários passaram. A pipeline está pronta para o deploy."
 
-      - name: Publish Artifacts
-        run: dotnet publish ./Insurance.Quote.Api/Insurance.Quote.Api.csproj --no-build --configuration Release -o ${{ github.workspace }}/publish
-      
-      - name: Publish Artifacts
-        run: dotnet publish ./Insurance.Policy.Api/Insurance.Policy.Api.csproj --no-build --configuration Release -o ${{ github.workspace }}/publish
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: quote-api-package
-          path: ${{ github.workspace }}/publish
-
       - name: Ready for Real Deployment
         if: github.ref == 'refs/heads/main' 
         run: echo "🎉 Artifacts published and ready to be deployed to Production!
