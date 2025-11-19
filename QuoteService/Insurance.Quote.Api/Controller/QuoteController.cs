@@ -11,7 +11,7 @@ namespace Quote.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class QuotesController(
+public class QuoteController(
     CreateQuoteHandler createHandler,
     ChangeQuoteStatusHandler changeStatusHandler,
     ListQuotesHandler listHandler,
