@@ -139,7 +139,7 @@ Após a inicialização completa (os logs param de mostrar atividade de *-migrat
 </table>
 
 
-# 📝 Guia de Testes da Plataforma Insurance (API Gateway)
+### 📝 Guia de Testes da Plataforma Insurance 
 
 Este guia explica o **fluxo de testes de ponta a ponta** cobrindo a criação de uma **Proposta** (`Quote`) até a **Criação de um Contrato** (`Policy`).
 
@@ -147,7 +147,7 @@ O fluxo completo é dividido em três etapas essenciais, acessadas via Swagger d
 
 ---
 
-## 🚀 Pré-Requisitos
+### 🚀 Pré-Requisitos
 
 Certifique-se de que todo o ambiente de microsserviços está rodando e acessível.
 
@@ -236,7 +236,7 @@ Você enviará o `QuoteId` para a `Policy API`, que deverá buscar a proposta ap
 
 ---
 
-## 🐛 Próximo Passo
+### 🐛 Próximo Passo
 
 Se você encontrar erros durante este fluxo, verifique os logs dos contêineres para diagnosticar falhas de comunicação ou persistência:
 
