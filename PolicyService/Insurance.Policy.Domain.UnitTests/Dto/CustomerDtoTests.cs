@@ -11,7 +11,7 @@ namespace Insurance.Policy.Domain.UnitTests.Dto
             var customerId = Guid.NewGuid();
             var customerName = "João Silva";
             var documentNumber = "123.456.789-00";
-            var birthDate = new DateTime(1985, 10, 25);
+            var birthDate = new DateTime(1985, 10, 25).ToShortDateString();
 
             var dto = new CustomerDto
             {
@@ -38,7 +38,7 @@ namespace Insurance.Policy.Domain.UnitTests.Dto
             Assert.Equal(Guid.Empty, dto.CustomerId); 
             Assert.Null(dto.CustomerName);          
             Assert.Null(dto.DocumentNumber);       
-            Assert.Equal(default(DateTime), dto.BirthDate);
+            Assert.Equal(default(string), dto.BirthDate);
         }
     }
 }

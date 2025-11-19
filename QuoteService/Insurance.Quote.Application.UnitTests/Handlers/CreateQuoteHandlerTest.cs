@@ -46,8 +46,6 @@ namespace Insurance.Quote.Application.UnitTests.Handlers
             // ARRANGE
             var command = new CreateQuoteCommand
             {
-                CustomerId = CustomerId,
-                ProductId = ProductId,
                 InsuranceType = "Auto",
                 Status = QuoteStatus.Approved,
                 EstimatedValue = 5000.00m
@@ -70,7 +68,6 @@ namespace Insurance.Quote.Application.UnitTests.Handlers
                     CancellationToken),
                 Times.Once);
 
-            Assert.Equal(command.CustomerId, resultQuote.CustomerId);
             Assert.Equal(command.EstimatedValue, resultQuote.EstimatedValue);
         }
 
@@ -81,8 +78,6 @@ namespace Insurance.Quote.Application.UnitTests.Handlers
             // ARRANGE
             var command = new CreateQuoteCommand
             {
-                CustomerId = CustomerId,
-                ProductId = ProductId,
                 Status = QuoteStatus.UnderReview,
                 EstimatedValue = 1000m
             };

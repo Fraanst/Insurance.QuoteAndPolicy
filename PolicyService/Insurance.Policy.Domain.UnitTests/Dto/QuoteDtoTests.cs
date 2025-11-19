@@ -22,8 +22,6 @@ namespace Insurance.Policy.Domain.UnitTests.Dto
             var dto = new QuoteDto
             {
                 QuoteId = TestQuoteId,
-                CustomerId = TestCustomerId,
-                ProductId = TestProductId,
                 InsuranceType = "Auto Completo",
                 Status = QuoteStatus.Approved,
                 EstimatedValue = estimatedValue,
@@ -36,8 +34,6 @@ namespace Insurance.Policy.Domain.UnitTests.Dto
             Assert.NotNull(dto);
 
             Assert.Equal(TestQuoteId, dto.QuoteId);
-            Assert.Equal(TestCustomerId, dto.CustomerId);
-            Assert.Equal(TestProductId, dto.ProductId);
             Assert.Equal("Auto Completo", dto.InsuranceType);
             Assert.Equal(QuoteStatus.Approved, dto.Status);
             Assert.Equal(estimatedValue, dto.EstimatedValue);
@@ -61,8 +57,6 @@ namespace Insurance.Policy.Domain.UnitTests.Dto
             Assert.Null(dto.Product);
 
             Assert.Equal(Guid.Empty, dto.QuoteId);
-            Assert.Equal(Guid.Empty, dto.CustomerId);
-            Assert.Equal(Guid.Empty, dto.ProductId);
             Assert.Equal(default(QuoteStatus), dto.Status); 
             Assert.Equal(0m, dto.EstimatedValue);
             Assert.Equal(default(DateTime), dto.CreatedAt);
