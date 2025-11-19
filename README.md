@@ -244,3 +244,12 @@ Se você encontrar erros durante este fluxo, verifique os logs dos contêineres 
 docker logs quote-api
 docker logs policy-api
 ```
+
+---
+
+#### Diagrama 
+
+<img width="787" height="465" alt="image" src="https://github.com/user-attachments/assets/f123bf7b-3624-4dce-b8ba-6d983783a1b3" />
+
+
+---
