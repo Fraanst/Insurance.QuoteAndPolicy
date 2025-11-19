@@ -137,3 +137,110 @@ Após a inicialização completa (os logs param de mostrar atividade de *-migrat
     </tr>
   </tbody>
 </table>
+
+
+# 📝 Guia de Testes da Plataforma Insurance (API Gateway)
+
+Este guia explica o **fluxo de testes de ponta a ponta** cobrindo a criação de uma **Proposta** (`Quote`) até a **Criação de um Contrato** (`Policy`).
+
+O fluxo completo é dividido em três etapas essenciais, acessadas via Swagger das respectivas APIs.
+
+---
+
+## 🚀 Pré-Requisitos
+
+Certifique-se de que todo o ambiente de microsserviços está rodando e acessível.
+
+* **Docker:** Todos os contêineres (`quote-api`, `policy-api`, `quote-db`, `policy-db`, `localstack`) devem estar **`Up`** (ativos).
+---
+
+## 1. Etapa: Criação da Proposta (API de Quote)
+
+O primeiro passo é gerar uma nova proposta de seguro.
+
+### 1.1. 💾 Enviar Requisição de Criação
+
+Você usará o *endpoint* `POST /quote` para iniciar a cotação.
+
+| API | URL (Swagger) | Método | Rota |
+| :--- | :--- | :--- | :--- |
+| **Quote API** | `http://localhost:7150/swagger` | `POST` | `/api/v1/Quote` |
+
+> ℹ️ **Observação de Teste (Simplificação):**
+> Você **não precisa se preocupar** em criar o `Customer` ou o `Product` separadamente. O *Service Layer* da `Quote API` é responsável por receber os dados do cliente e produto na requisição e **criar/persistir** essas entidades automaticamente antes de gerar o `QuoteId`.
+
+> Exemplo de Payload
+```bash
+{
+  "insuranceType": "auto",
+  "status": 0,
+  "estimatedValue": 200
+}
+```
+
+### 1.2. 🎯 Verificação do Resultado
+
+| Item | Detalhe |
+| :--- | :--- |
+| **Status Code** | Espere um `200 OK`. |
+| **Corpo da Resposta** | Receberá o objeto `QuoteResponse` contendo o `QuoteId` gerado (um GUID). |
+| **Ação** | **Copie o `QuoteId`**. Ele será necessário nas etapas 2 e 3. |
+
+---
+
+## 2. Etapa: Aprovação da Proposta (API de Quote)
+
+Para que uma proposta possa se tornar um contrato (Apólice), ela deve estar em um *status* de **Aprovada**.
+
+### 2.1. ⚙️ Alterar o Status
+
+Você usará a rota de alteração de *status* da `Quote API`.
+
+| API | URL (Swagger) | Método | Rota |
+| :--- | :--- | :--- | :--- |
+| **Quote API** | `http://localhost:7150/swagger` | `PATCH` | `/api/v1/Quote/{quoteId}/status` |
+
+| Parâmetro | Tipo | Ação |
+| :--- | :--- | :--- |
+| **`quoteId`** (URL) | `GUID` | Cole o `QuoteId` copiado na Etapa 1. |
+| **`newStatus`** (Body) | `int` | Envie o valor do *enum* que representa o status **Aprovado** (Ex: `1` para "Aprovado"`). |
+
+### 2.2. 🎯 Verificação do Resultado
+
+* **Status Code:** Espere um `200 OK`.
+* A proposta está agora marcada como apta para contratação no banco de dados da `Quote API`.
+
+---
+
+## 3. Etapa: Criação da Apólice / Contrato (API de Policy)
+
+O passo final é enviar a proposta aprovada para a `Policy API`, que é responsável por emitir a apólice.
+
+### 3.1. 📨 Enviar Proposta Aprovada
+
+Você enviará o `QuoteId` para a `Policy API`, que deverá buscar a proposta aprovada na `Quote API` (comunicação Síncrona) e criar o contrato.
+
+| API | URL (Swagger) | Método | Rota |
+| :--- | :--- | :--- | :--- |
+| **Policy API** | `http://localhost:7151/swagger` | `POST` | `/api/v1/Policy` |
+
+| Parâmetro | Tipo | Ação |
+| :--- | :--- | :--- |
+| **`QuoteId`** (Body) | `GUID` | **Cole o `QuoteId`** que você copiou na Etapa 1. |
+
+### 3.2. 🎯 Verificação do Resultado
+
+* **Status Code:** Espere um **`201 Created`**.
+* **Corpo da Resposta:** Você receberá um objeto `PolicyResponse`.
+* Isso confirma que o fluxo completo de comunicação e persistência foi concluído com sucesso.
+
+---
+
+## 🐛 Próximo Passo
+
+Se você encontrar erros durante este fluxo, verifique os logs dos contêineres para diagnosticar falhas de comunicação ou persistência:
+
+```bash
+docker logs quote-api
+docker logs policy-api
+```
