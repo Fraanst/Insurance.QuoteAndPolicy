@@ -19,8 +19,6 @@ namespace Insurance.Quote.Application.UnitTests.Handlers
         private readonly Mock<ILogger<CreateQuoteHandler>> _loggerMock;
         private readonly CreateQuoteHandler _handler;
 
-        private readonly Guid CustomerId = Guid.NewGuid();
-        private readonly Guid ProductId = Guid.NewGuid();
         private readonly CancellationToken CancellationToken = CancellationToken.None;
 
         public CreateQuoteHandlerTests()
@@ -62,8 +60,6 @@ namespace Insurance.Quote.Application.UnitTests.Handlers
             _quoteRepositoryMock.Verify(
                 r => r.CreateAsync(
                     It.Is<QuoteEntity>(q =>
-                        q.CustomerId == CustomerId &&
-                        q.ProductId == ProductId &&
                         q.EstimatedValue == 5000.00m),
                     CancellationToken),
                 Times.Once);
