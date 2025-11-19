@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quote.Domain.Interfaces.Repositories;
 
+
 namespace Insurance.Quote.Infrastructure;
 
 public static class DependencyInjection
