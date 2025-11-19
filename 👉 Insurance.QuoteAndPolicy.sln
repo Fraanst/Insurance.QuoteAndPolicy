@@ -23,6 +23,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Insurance.Policy.Domain", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Insurance.Policy.Infrastructure", "PolicyService\Insurance.Policy.Infrastructure\Insurance.Policy.Infrastructure.csproj", "{E5BD0BFC-5B40-F6F2-D0CC-83C02D2BD911}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{82DC8027-A931-47FB-934B-49A7C1D5556A}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		Dockerfile.Policy.yaml = Dockerfile.Policy.yaml
+		Dockerfile.Quote.yaml = Dockerfile.Quote.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "localstack", "localstack", "{F4D8F71D-EE64-4403-BCD0-E1D661A17A58}"
+	ProjectSection(SolutionItems) = preProject
+		init-sns.sh = init-sns.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
