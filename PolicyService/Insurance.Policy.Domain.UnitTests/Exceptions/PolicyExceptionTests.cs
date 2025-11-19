@@ -1,5 +1,4 @@
 ﻿using Insurance.Policy.Domain.Exceptions;
-using Insurance.Policy.Domain.Exceptions;
 
 namespace Insurance.Policy.Domain.UnitTests.Exceptions
 {

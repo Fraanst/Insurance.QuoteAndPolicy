@@ -1,4 +1,4 @@
-﻿using Insurance.Quote.Application.Handlers
+﻿using Insurance.Quote.Application.Handlers;
 using Insurance.Quote.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
 using Moq;
