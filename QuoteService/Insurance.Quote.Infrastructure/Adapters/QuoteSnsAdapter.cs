@@ -9,9 +9,9 @@ namespace Insurance.Quote.Infrastructure.Adapters
 {
     public class QuoteSnsAdapter : IQuoteNotificationPort
     {
-        private readonly AmazonSimpleNotificationServiceClient _snsClient;
+        private readonly IAmazonSimpleNotificationService _snsClient;
         private readonly ILogger<QuoteSnsAdapter> _logger;
-        public QuoteSnsAdapter(AmazonSimpleNotificationServiceClient snsClient,
+        public QuoteSnsAdapter(IAmazonSimpleNotificationService snsClient,
             ILogger<QuoteSnsAdapter> logger)
         {
             _snsClient = snsClient;

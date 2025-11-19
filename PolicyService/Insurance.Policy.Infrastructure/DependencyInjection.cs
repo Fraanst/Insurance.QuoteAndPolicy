@@ -2,20 +2,26 @@
 using Insurance.Policy.Domain.Interfaces.Repositories;
 using Insurance.Policy.Infrastructure.Adapters;
 using Insurance.Policy.Infrastructure.Repositories;
+using Insurance.Quote.Domain.Interfaces.Ports;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Insurance.Policy.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("PolicyConnection");
+        services.AddDbContext<PolicyDbContext>(options =>
+        options.UseNpgsql(connectionString, b =>
+            b.MigrationsAssembly(typeof(PolicyDbContext).Assembly.FullName))
+        );
+
         services.AddHttpClient<IQuoteServicePort, QuoteServiceHttpAdapter>(client =>
         {
-            // O BaseAddress será preenchido pela variável de ambiente do Docker Compose!
-            // No docker-compose, você configurou: QuoteService__BaseUrl: http://quote-api:8080
-            // O .NET injeta essa configuração automaticamente.
-            client.BaseAddress = new Uri("http://quote-api:8080/");
+            client.BaseAddress = new Uri(configuration.GetSection("QuoteService:BaseUrl").Value);
         }) ;
 
         services.AddScoped<IPolicyRepository, PolicyRepository>();

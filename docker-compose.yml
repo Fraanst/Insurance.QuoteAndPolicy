@@ -49,7 +49,7 @@ services:
       - quote-db
       - localstack
     environment:
-      ConnectionStrings__DefaultConnection: "Host=quote-db;Port=5432;Database=quotedb;Username=quoteuser;Password=quotepassword"
+      ConnectionStrings__QuoteConnection: "Host=quote-db;Port=5432;Database=quotedb;Username=quoteuser;Password=quotepassword"
       AWS__ServiceUrl: http://localstack:4566
       AWS__Region: us-east-1
 
@@ -65,7 +65,7 @@ services:
       - policy-db
       - quote-api 
     environment:
-      ConnectionStrings__DefaultConnection: "Host=policy-db;Port=5432;Database=policydb;Username=policyuser;Password=policypassword"
+      ConnectionStrings__PolicyConnection: "Host=policy-db;Port=5432;Database=policydb;Username=policyuser;Password=policypassword"
       QuoteService__BaseUrl: http://quote-api:8080 
 
 volumes:

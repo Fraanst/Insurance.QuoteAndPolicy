@@ -6,5 +6,7 @@
         public string? CustomerName { get; set; }
         public string? DocumentNumber { get; set; }
         public DateTime BirthDate { get; set; }
+
+        public ICollection<QuoteEntity> Quotes { get; set; } = [];
     }
 }

@@ -4,6 +4,8 @@
     {
         public Guid ProductId { get; set; }
         public string? ProductType { get; set; }
-        public double Value { get; set; }
+        public decimal Value { get; set; }
+
+        public ICollection<QuoteEntity> Quotes { get; set; } = new List<QuoteEntity>();
     }
 }

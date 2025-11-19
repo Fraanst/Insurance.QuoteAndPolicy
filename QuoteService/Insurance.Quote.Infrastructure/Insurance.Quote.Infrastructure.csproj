@@ -11,6 +11,7 @@
     <PackageReference Include="AWSSDK.SimpleNotificationService" Version="4.0.2.5" />
     <PackageReference Include="AWSSDK.SimpleNotificationService.NetCore.Support" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
