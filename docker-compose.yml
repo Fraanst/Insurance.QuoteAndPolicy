@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # 1. SERVIÇO DE SIMULAÇÃO AWS (PARA QUOTESERVICE)
+  localstack:
+    container_name: localstack
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: sns
+      DOCKER_HOST: unix:///var/run/docker.sock
+    volumes:
+      # Script para criar o tópico SNS
+      - ./localstack/init-sns.sh:/etc/localstack/init/ready.d/init-sns.sh
+
+  # 2. BANCO DE DADOS PARA O QUOTESERVICE
+  quote-db:
+    image: postgres:15-alpine
+    container_name: quote_postgres_db
+    environment:
+      POSTGRES_USER: quoteuser
+      POSTGRES_PASSWORD: quotepassword
+      POSTGRES_DB: quotedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - quote_postgres_data:/var/lib/postgresql/data
+
+  # 3. BANCO DE DADOS PARA O POLICYSERVICE
+  policy-db:
+    image: postgres:15-alpine
+    container_name: policy_postgres_db
+    environment:
+      POSTGRES_USER: policyuser
+      POSTGRES_PASSWORD: policypassword
+      POSTGRES_DB: policydb
+    ports:
+      - "5433:5432" # Porta 5433 local
+    volumes:
+      - policy_postgres_data:/var/lib/postgresql/data
+
+  # 4. API DO QUOTESERVICE (PropostaService)
+  quote-api:
+    container_name: quote-api
+    build:
+      context: . 
+      dockerfile: Dockerfile.Quote 
+    ports:
+      - "7150:8080" 
+    depends_on:
+      - quote-db
+      - localstack
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=quote-db;Port=5432;Database=quotedb;Username=quoteuser;Password=quotepassword"
+      AWS__ServiceUrl: http://localstack:4566
+      AWS__Region: us-east-1
+
+  # 5. API DO POLICYSERVICE (ContratacaoService)
+  policy-api:
+    container_name: policy-api
+    build:
+      context: .
+      dockerfile: Dockerfile.Policy 
+    ports:
+      - "7151:8080" 
+    depends_on:
+      - policy-db
+      - quote-api 
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=policy-db;Port=5432;Database=policydb;Username=policyuser;Password=policypassword"
+      QuoteService__BaseUrl: http://quote-api:8080 
+
+volumes:
+  quote_postgres_data:
+  policy_postgres_data:

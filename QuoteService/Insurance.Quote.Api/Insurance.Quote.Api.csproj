@@ -9,11 +9,13 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Insurance.Quote.Application\Insurance.Quote.Application.csproj" />
     <ProjectReference Include="..\Insurance.Quote.Domain\Insurance.Quote.Domain.csproj" />
+    <ProjectReference Include="..\Insurance.Quote.Infrastructure\Insurance.Quote.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
