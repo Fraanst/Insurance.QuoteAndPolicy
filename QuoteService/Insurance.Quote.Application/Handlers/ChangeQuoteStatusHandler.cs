@@ -31,8 +31,8 @@ public class ChangeQuoteStatusHandler(
 
         await quoteRepository.UpdateStatusAsync(quote, cancellationToken);
 
-        if(quote.Status == QuoteStatus.Approved)
-            await quoteNotificationPort.NotifyQuoteApprovedAsync(quote.QuoteId, cancellationToken);
+        //if(quote.Status == QuoteStatus.Approved)
+        //    await quoteNotificationPort.NotifyQuoteApprovedAsync(quote.QuoteId, cancellationToken);
 
     }
 }
