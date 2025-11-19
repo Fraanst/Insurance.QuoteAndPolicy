@@ -111,7 +111,29 @@ quote-seeder rodam (após o quote-migrator): Injeta o Customer e o Product inici
 
 quote-api e policy-api (APIs) iniciam e ficam prontas para aceitar requisições.
 
-### A Aplicação adiciona um Produto e um Cliente para que seja possível adicionar uma Proposta
+#### A Aplicação adiciona um Produto e um Cliente para que seja possível adicionar uma Proposta
 
 ### Acesso e Teste da API
 Após a inicialização completa (os logs param de mostrar atividade de *-migrator e *-seeder), as APIs estão acessíveis via localhost:
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th>Serviço</th>
+      <th>Porta</th>
+      <th>EndPoint Swagger</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>Proposta (Quote API)</b></td>
+      <td><code>7150</code></td>
+      <td>http://localhost:7150/swagger/index.html.</td>
+    </tr>
+    <tr>
+      <td><b>Contratação (Policy API)</b></td>
+      <td><code>7151</code></td>
+      <td>http://localhost:7151/swagger/index.htm</td>
+    </tr>
+  </tbody>
+</table>
