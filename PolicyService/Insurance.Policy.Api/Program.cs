@@ -6,7 +6,6 @@ using Insurance.Policy.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(); 
-builder.Services.AddOpenApi();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 builder.Services.AddAutoMapper(typeof(PolicyMappingProfile).Assembly);
@@ -16,12 +15,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();

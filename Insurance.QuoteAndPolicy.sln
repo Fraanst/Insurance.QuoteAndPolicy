@@ -28,7 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens
 		docker-compose.yml = docker-compose.yml
 		Dockerfile.Policy.yaml = Dockerfile.Policy.yaml
 		Dockerfile.Quote.yaml = Dockerfile.Quote.yaml
-		init-sns.sh = init-sns.sh
 	EndProjectSection
 EndProject
 Global

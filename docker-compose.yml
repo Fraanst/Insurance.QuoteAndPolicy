@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # 1. SERVIÇO DE SIMULAÇÃO AWS (PARA QUOTESERVICE)
   localstack:
     container_name: localstack
     image: localstack/localstack:latest
@@ -11,7 +10,7 @@ services:
       SERVICES: sns
       DOCKER_HOST: unix:///var/run/docker.sock
     volumes:
-      # Script para criar o tópico SNS
+      # Script para criar o topico SNS
       - ./localstack/init-sns.sh:/etc/localstack/init/ready.d/init-sns.sh
 
   # 2. BANCO DE DADOS PARA O QUOTESERVICE
@@ -36,7 +35,7 @@ services:
       POSTGRES_PASSWORD: policypassword
       POSTGRES_DB: policydb
     ports:
-      - "5433:5432" # Porta 5433 local
+      - "5433:5432" 
     volumes:
       - policy_postgres_data:/var/lib/postgresql/data
 
