@@ -16,8 +16,6 @@ namespace Insurance.Quote.Application.UnitTests.Commands
 
             var command = new CreateQuoteCommand
             {
-                CustomerId = customerId,
-                ProductId = productId,
                 InsuranceType = insuranceType,
                 Status = status,
                 EstimatedValue = estimatedValue
@@ -25,8 +23,6 @@ namespace Insurance.Quote.Application.UnitTests.Commands
 
             Assert.NotNull(command);
 
-            Assert.Equal(customerId, command.CustomerId);
-            Assert.Equal(productId, command.ProductId);
             Assert.Equal(insuranceType, command.InsuranceType);
             Assert.Equal(status, command.Status);
             Assert.Equal(estimatedValue, command.EstimatedValue);
@@ -37,8 +33,6 @@ namespace Insurance.Quote.Application.UnitTests.Commands
         {
             var command = new CreateQuoteCommand();
 
-            Assert.Equal(Guid.Empty, command.CustomerId);
-            Assert.Equal(Guid.Empty, command.ProductId);
             Assert.Null(command.InsuranceType);
             Assert.Equal(default(QuoteStatus), command.Status); 
             Assert.Equal(0m, command.EstimatedValue);
