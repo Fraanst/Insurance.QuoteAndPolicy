@@ -26,9 +26,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{82DC8027-A931-47FB-934B-49A7C1D5556A}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
-		Dockerfile.Policy.yaml = Dockerfile.Policy.yaml
-		Dockerfile.Quote.yaml = Dockerfile.Quote.yaml
-		init-sns.sh = init-sns.sh
+		Dockerfile.Policy = Dockerfile.Policy
+		Dockerfile.Quote = Dockerfile.Quote
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "localstack", "localstack", "{C978E06D-D731-4D19-8A5C-C3A602AA5B77}"
+	ProjectSection(SolutionItems) = preProject
+		localstack\init-sns.sh = localstack\init-sns.sh
 	EndProjectSection
 EndProject
 Global
