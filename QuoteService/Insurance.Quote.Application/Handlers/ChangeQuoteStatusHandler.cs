@@ -19,10 +19,10 @@ public class ChangeQuoteStatusHandler(
             if (quote is null)
                 throw new KeyNotFoundException("Proposta não encontrada");
 
-            //if (!quote.CanChangeStatusTo(newStatus))
-            //    throw new QuoteStatusChangeFailedException(quoteId, Enum.GetName(newStatus));
+            if (!quote.CanChangeStatusTo(newStatus))
+                throw new QuoteStatusChangeFailedException(quoteId, Enum.GetName(newStatus));
 
-            //quote.ChangeStatus(newStatus);
+            quote.ChangeStatus(newStatus);
 
             await quoteRepository.UpdateStatusAsync(quote, cancellationToken);
 
