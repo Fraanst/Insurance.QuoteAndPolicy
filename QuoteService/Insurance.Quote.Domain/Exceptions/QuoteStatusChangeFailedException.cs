@@ -5,4 +5,5 @@
         public QuoteStatusChangeFailedException(Guid Id, string status)
            : base($"Não é possível alterar o status da proposta de {Id} para {status}.") {}
     }
+
 }

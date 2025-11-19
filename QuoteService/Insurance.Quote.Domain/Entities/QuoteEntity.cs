@@ -11,5 +11,16 @@
         public DateTime CreatedAt { get; set; }
         public CustomerEntity? Customer { get; set; }
         public ProductEntity? Product { get; set; }
+
+
+        public bool CanChangeStatusTo(QuoteStatus status)
+        {
+            if(Status != QuoteStatus.UnderReview)
+                return false;
+            return true;
+        }
+
+        public void ChangeStatus(QuoteStatus newStatus)
+            => Status = newStatus;
     }
 }
