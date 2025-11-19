@@ -22,7 +22,7 @@ O ambiente é orquestrado via Docker Compose, simulando um ecossistema de micros
 | **Arquitetura Hexagonal** | Cada microserviço é dividido em camadas (Domain, Application, Infrastructure). O Core (Domain/Application) é isolado, comunicando-se com o mundo externo (APIs, DBs, AWS) apenas através de **Ports** (interfaces no Domain) e **Adapters** (implementações na Infrastructure). |
 | **DDD/Clean Code/SOLID** | Uso de Aggregates, Entities e Value Objects na camada Domain, garantindo que as regras de negócio sejam independentes da tecnologia. O princípio **D de SOLID (Inversão de Dependência)** é aplicado na comunicação entre serviços (Porta `IQuoteServicePort`). |
 
-### 1.2 Estrutura de Microserviços (HTML Table)
+### 1.2 Estrutura de Microserviços 
 
 <table width="100%">
   <thead>
@@ -82,7 +82,7 @@ O ambiente completo (APIs e Infraestrutura) é iniciado com um único comando.
 
 1.  **Clone o repositório** e navegue até o diretório raiz da solução:
     ```bash
-    git clone [URL_DO_SEU_REPO]
+    git clone https://github.com/Fraanst/Insurance.QuoteAndPolicy)](https://github.com/Fraanst/Insurance.QuoteAndPolicy.git
     cd Insurance.QuoteAndPolicy 
     ```
 
