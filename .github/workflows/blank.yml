@@ -1,4 +1,4 @@
-# This is a basic workflow to help you get started with Actions
+﻿# This is a basic workflow to help you get started with Actions
 
 name: CI
 
@@ -22,15 +22,38 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build Solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run Unit Tests
+        run: dotnet test --no-build --verbosity normal --configuration Release
+
+      - name: Deployment Readiness Check
+        run: echo "✅ Todos os testes unitários passaram. A pipeline está pronta para o deploy."
+
+      - name: Publish Artifacts
+        run: dotnet publish ./Insurance.Quote.Api/Insurance.Quote.Api.csproj --no-build --configuration Release -o ${{ github.workspace }}/publish
+      
+      - name: Publish Artifacts
+        run: dotnet publish ./Insurance.Policy.Api/Insurance.Policy.Api.csproj --no-build --configuration Release -o ${{ github.workspace }}/publish
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: quote-api-package
+          path: ${{ github.workspace }}/publish
+
+      - name: Ready for Real Deployment
+        if: github.ref == 'refs/heads/main' 
+        run: echo "🎉 Artifacts published and ready to be deployed to Production!
