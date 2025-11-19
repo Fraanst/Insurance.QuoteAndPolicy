@@ -17,7 +17,6 @@ public class ChangeQuoteStatusHandler(
         if (quote is null)
         {
             logger.LogError($"Proposta não encontrada:{quoteId}");
-
             throw new KeyNotFoundException("Proposta não encontrada");
         }
 
