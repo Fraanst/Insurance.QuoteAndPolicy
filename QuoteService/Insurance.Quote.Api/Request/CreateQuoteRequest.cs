@@ -1,4 +1,7 @@
-﻿public class CreateQuoteRequest
+﻿
+namespace Insurance.Quote.Api.Request;
+
+public class CreateQuoteRequest
 {
     public Guid CustomerId { get; set; }
     public Guid ProductId { get; set; }
