@@ -42,6 +42,3 @@ jobs:
       - name: Deployment Readiness Check
         run: echo "✅ Todos os testes unitários passaram. A pipeline está pronta para o deploy."
 
-      - name: Ready for Real Deployment
-        if: github.ref == 'refs/heads/main' 
-        run: echo "🎉 Artifacts published and ready to be deployed to Production!
