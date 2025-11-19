@@ -1,10 +1,12 @@
 ﻿using Insurance.Quote.Domain.Exceptions;
+using Insurance.Quote.Domain.Interfaces.Ports;
 using Microsoft.Extensions.Logging;
 using Quote.Domain.Interfaces.Repositories;
 
 public class ChangeQuoteStatusHandler(
         IQuoteRepository quoteRepository,
-        ILogger<ChangeQuoteStatusHandler> logger)
+        ILogger<ChangeQuoteStatusHandler> logger,
+        IQuoteNotificationPort quoteNotificationPort)
 {
     public async Task HandleAsync(Guid quoteId, QuoteStatus newStatus, CancellationToken cancellationToken)
     {
@@ -23,6 +25,9 @@ public class ChangeQuoteStatusHandler(
             //quote.ChangeStatus(newStatus);
 
             await quoteRepository.UpdateStatusAsync(quote, cancellationToken);
+
+            if(quote.Status == QuoteStatus.Approved)
+                await quoteNotificationPort.NotifyQuoteApprovedAsync(quote.QuoteId, cancellationToken);
 
         }
         catch (Exception ex)
