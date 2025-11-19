@@ -24,7 +24,7 @@ namespace Quote.Application.Handlers
                 #region criando uma estrutura de customer e product para testes
                 var customer = new CustomerEntity
                 {
-                    CustomerId = command.CustomerId,
+                    CustomerId = Guid.NewGuid(),
                     CustomerName = "Francine Stramantinoli",
                     DocumentNumber = "123.456.789-00",
                     BirthDate = new DateTime(1993, 04, 12).ToShortDateString()
@@ -33,7 +33,7 @@ namespace Quote.Application.Handlers
 
                 var product = new ProductEntity
                 {
-                    ProductId = command.ProductId,
+                    ProductId = Guid.NewGuid(),
                     ProductType = "Auto",
                     Value = 100000.00m
                 };
@@ -41,8 +41,8 @@ namespace Quote.Application.Handlers
                 var quote = new QuoteEntity
                 {
                     QuoteId = Guid.NewGuid(),
-                    CustomerId = command.CustomerId,
-                    ProductId = command.ProductId,
+                    CustomerId = customer.CustomerId,
+                    ProductId = product.ProductId,
                     InsuranceType = command.InsuranceType,
                     Status = command.Status,
                     EstimatedValue = command.EstimatedValue,

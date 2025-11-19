@@ -23,7 +23,6 @@ namespace Insurance.Quote.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                //logger.LogError(ex, $"Erro ao alterar criar uma proposta");
                 throw new QuoteException($"Ocorreu um erro ao tentar criar proposta no banco");
             }
         }
