@@ -12,28 +12,27 @@ public class ChangeQuoteStatusHandler(
     {
         logger.LogInformation($"Alterando status da proposta:{quoteId} para {Enum.GetName(newStatus)}");
 
-        try
+        var quote = await quoteRepository.GetByIdAsync(quoteId, cancellationToken);
+
+        if (quote is null)
         {
-            var quote = await quoteRepository.GetByIdAsync(quoteId, cancellationToken);
+            logger.LogError($"Proposta não encontrada:{quoteId}");
 
-            if (quote is null)
-                throw new KeyNotFoundException("Proposta não encontrada");
-
-            if (!quote.CanChangeStatusTo(newStatus))
-                throw new QuoteStatusChangeFailedException(quoteId, Enum.GetName(newStatus));
-
-            quote.ChangeStatus(newStatus);
-
-            await quoteRepository.UpdateStatusAsync(quote, cancellationToken);
-
-            if(quote.Status == QuoteStatus.Approved)
-                await quoteNotificationPort.NotifyQuoteApprovedAsync(quote.QuoteId, cancellationToken);
-
+            throw new KeyNotFoundException("Proposta não encontrada");
         }
-        catch (Exception ex)
+
+        if (!quote.CanChangeStatusTo(newStatus))
         {
-            logger.LogError(ex, $"Erro ao alterar status da proposta:{quoteId} para {newStatus}");
-            throw new QuoteException($"Ocorreu um erro ao tentar alterar status da proposta: {quoteId} para {Enum.GetName(newStatus)}");
+            logger.LogError($"Proposta não estava como pendente:{quoteId} para {newStatus}");
+            throw new QuoteStatusChangeFailedException(quoteId, Enum.GetName(newStatus));
         }
+
+        quote.ChangeStatus(newStatus);
+
+        await quoteRepository.UpdateStatusAsync(quote, cancellationToken);
+
+        if(quote.Status == QuoteStatus.Approved)
+            await quoteNotificationPort.NotifyQuoteApprovedAsync(quote.QuoteId, cancellationToken);
+
     }
 }

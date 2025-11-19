@@ -39,25 +39,22 @@ public class ChangeQuoteStatusHandlerTests
         var initialStatus = QuoteStatus.UnderReview;
         var newStatus = QuoteStatus.Approved;
 
-        var mockQuote = new Mock<QuoteEntity>();
-        mockQuote.SetupGet(q => q.QuoteId).Returns(QuoteId);
-        mockQuote.SetupGet(q => q.Status).Returns(initialStatus); 
-
-        mockQuote.Setup(q => q.CanChangeStatusTo(newStatus)).Returns(true);
+        var mockQuote = new QuoteEntity
+        {
+            Status = initialStatus,
+            QuoteId = QuoteId
+        };
 
         _quoteRepositoryMock
             .Setup(r => r.GetByIdAsync(QuoteId, CancellationToken))
-            .ReturnsAsync(mockQuote.Object);
+            .ReturnsAsync(mockQuote);
 
         // ACT
         await _handler.HandleAsync(QuoteId, newStatus, CancellationToken);
 
         // ASSERT
-
-        mockQuote.Verify(q => q.ChangeStatus(newStatus), Times.Once);
-
         _quoteRepositoryMock.Verify(
-            r => r.UpdateStatusAsync(mockQuote.Object, CancellationToken),
+            r => r.UpdateStatusAsync(mockQuote, CancellationToken),
             Times.Once);
 
         _notificationPortMock.Verify(
@@ -69,17 +66,17 @@ public class ChangeQuoteStatusHandlerTests
     public async Task HandleAsync_WhenStatusChangesIsRejected_ShouldUpdateButNotNotify()
     {
         // ARRANGE
-        var newStatus = QuoteStatus.Rejected; 
+        var newStatus = QuoteStatus.Rejected;
 
-        var mockQuote = new Mock<QuoteEntity>();
-        mockQuote.SetupGet(q => q.QuoteId).Returns(QuoteId);
-
-        mockQuote.SetupGet(q => q.Status).Returns(newStatus);
-        mockQuote.Setup(q => q.CanChangeStatusTo(newStatus)).Returns(true);
+        var mockQuote = new QuoteEntity
+        {
+            Status = QuoteStatus.UnderReview,
+            QuoteId = QuoteId
+        };
 
         _quoteRepositoryMock
             .Setup(r => r.GetByIdAsync(QuoteId, CancellationToken))
-            .ReturnsAsync(mockQuote.Object);
+            .ReturnsAsync(mockQuote);
 
         // ACT
         await _handler.HandleAsync(QuoteId, newStatus, CancellationToken);
@@ -113,13 +110,15 @@ public class ChangeQuoteStatusHandlerTests
     {
         // ARRANGE
         var newStatus = QuoteStatus.Approved;
-        var mockQuote = new Mock<QuoteEntity>();
-
-        mockQuote.Setup(q => q.CanChangeStatusTo(newStatus)).Returns(false);
+        var mockQuote = new QuoteEntity
+        {
+            Status = QuoteStatus.Rejected, 
+            QuoteId = QuoteId
+        };
 
         _quoteRepositoryMock
             .Setup(r => r.GetByIdAsync(QuoteId, CancellationToken))
-            .ReturnsAsync(mockQuote.Object);
+            .ReturnsAsync(mockQuote);
 
         // ACT & ASSERT
         await Assert.ThrowsAsync<QuoteStatusChangeFailedException>(
