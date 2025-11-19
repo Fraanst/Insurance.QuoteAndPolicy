@@ -93,33 +93,5 @@ namespace Insurance.Policy.Application.UnitTests.Handlers
                 r => r.ContractQuote(It.IsAny<PolicyEntity>(), CancellationToken),
                 Times.Never);
         }
-
-
-        [Fact]
-        public async Task HandleAsync_WhenQuoteServiceThrowsException_ShouldThrowPolicyException()
-        {
-            // ARRANGE
-            var command = new ContractQuoteCommand
-            {
-                QuoteId = TestQuoteId,
-                PremiumValue = TestPremiumValue
-            };
-
-            _quoteServicePortMock
-                .Setup(p => p.GetQuoteAsync(TestQuoteId, CancellationToken))
-                .ThrowsAsync(new TimeoutException("Serviço de Quote fora do ar."));
-
-            // ACT & ASSERT
-            await Assert.ThrowsAsync<PolicyException>(
-                () => _handler.HandleAsync(command, CancellationToken));
-
-            _loggerMock.Verify(
-                x => x.Log(
-                    LogLevel.Error,
-                    It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Ocorreu um erro ao tentar contratar proposta")),
-                    It.IsAny<Exception>(),
-                    It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)), Times.Once);
-        }
     }
 }

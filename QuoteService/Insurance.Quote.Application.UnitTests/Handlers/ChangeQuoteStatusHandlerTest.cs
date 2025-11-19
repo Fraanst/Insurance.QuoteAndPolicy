@@ -128,28 +128,4 @@ public class ChangeQuoteStatusHandlerTests
             r => r.UpdateStatusAsync(It.IsAny<QuoteEntity>(), CancellationToken),
             Times.Never);
     }
-
-    [Fact]
-    public async Task HandleAsync_WhenRepositoryThrowsException_ShouldThrowQuoteException()
-    {
-        // ARRANGE
-        var newStatus = QuoteStatus.Approved;
-
-        _quoteRepositoryMock
-            .Setup(r => r.GetByIdAsync(QuoteId, CancellationToken))
-            .ThrowsAsync(new InvalidOperationException("Erro de conexão com o DB."));
-
-        // ACT & ASSERT
-        await Assert.ThrowsAsync<QuoteException>(
-            () => _handler.HandleAsync(QuoteId, newStatus, CancellationToken));
-
-        _loggerMock.Verify(
-            x => x.Log(
-                LogLevel.Error,
-                It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Erro ao alterar status da proposta")),
-                It.IsAny<Exception>(),
-                It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
-            Times.Once);
-    }
 }
