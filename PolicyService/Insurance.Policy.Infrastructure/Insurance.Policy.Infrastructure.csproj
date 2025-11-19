@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QuoteService\Insurance.Quote.Domain\Insurance.Quote.Domain.csproj" />
     <ProjectReference Include="..\Insurance.Policy.Domain\Insurance.Policy.Domain.csproj" />
   </ItemGroup>
 

@@ -19,10 +19,10 @@ namespace Insurance.Quote.Infrastructure.Mappings
                 .HasColumnType("decimal(18, 2)")
                 .IsRequired();
 
-            builder.HasMany(p => p.Quotes) 
-                   .WithOne(q => q.Product) 
-                   .HasForeignKey(q => q.ProductId) 
-                   .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(p => p.Quotes)
+               .WithOne(q => q.Product)
+               .HasForeignKey(q => q.ProductId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Insurance.Quote.Domain.Exceptions;
+﻿using Insurance.Quote.Domain.Enums;
+using Insurance.Quote.Domain.Exceptions;
 using Insurance.Quote.Domain.Interfaces.Ports;
 using Microsoft.Extensions.Logging;
 using Quote.Domain.Interfaces.Repositories;

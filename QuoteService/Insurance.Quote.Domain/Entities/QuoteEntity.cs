@@ -1,4 +1,6 @@
-﻿namespace Quote.Domain.Entities
+﻿using Insurance.Quote.Domain.Enums;
+
+namespace Quote.Domain.Entities
 {
     public class QuoteEntity
     {

@@ -35,7 +35,7 @@ public class QuoteController(
         CancellationToken cancellationToken)
     {
         var quotes = await listHandler.HandleAsync(cancellationToken);
-        var response = mapper.Map<QuoteResponse>(quotes);
+        var response = mapper.Map<List<QuoteResponse>>(quotes);
         return Ok(response);
     }
 

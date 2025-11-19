@@ -6,11 +6,15 @@ COPY QuoteService/Insurance.Quote.Api/*.csproj QuoteService/Insurance.Quote.Api/
 COPY QuoteService/Insurance.Quote.Application/*.csproj QuoteService/Insurance.Quote.Application/
 COPY QuoteService/Insurance.Quote.Domain/*.csproj QuoteService/Insurance.Quote.Domain/
 COPY QuoteService/Insurance.Quote.Infrastructure/*.csproj QuoteService/Insurance.Quote.Infrastructure/
+COPY QuoteService/Insurance.Quote.Domain.UnitTests/*.csproj QuoteService/Insurance.Quote.Domain.UnitTests/
+COPY QuoteService/Insurance.Quote.Application.UnitTests/*.csproj QuoteService/Insurance.Quote.Application.UnitTests/
 
 COPY PolicyService/Insurance.Policy.Api/*.csproj PolicyService/Insurance.Policy.Api/
 COPY PolicyService/Insurance.Policy.Application/*.csproj PolicyService/Insurance.Policy.Application/
 COPY PolicyService/Insurance.Policy.Domain/*.csproj PolicyService/Insurance.Policy.Domain/
 COPY PolicyService/Insurance.Policy.Infrastructure/*.csproj PolicyService/Insurance.Policy.Infrastructure/
+COPY PolicyService/Insurance.Policy.Application.UnitTests/*.csproj PolicyService/Insurance.Policy.Application.UnitTests/
+COPY PolicyService/Insurance.Policy.Domain.UnitTests/*.csproj PolicyService/Insurance.Policy.Domain.UnitTests/
 
 RUN dotnet restore Insurance.QuoteAndPolicy.sln
 

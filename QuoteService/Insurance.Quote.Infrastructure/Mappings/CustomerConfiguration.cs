@@ -14,13 +14,13 @@ namespace Insurance.Quote.Infrastructure.Mappings
             builder.Property(c => c.CustomerId).HasColumnName("customer_id");
 
             builder.Property(c => c.CustomerName).HasMaxLength(250).IsRequired();
-            builder.HasIndex(c => c.DocumentNumber).IsUnique();
-            builder.Property(c => c.BirthDate).IsRequired();
+            builder.HasIndex(c => c.DocumentNumber);
+            builder.Property(c => c.BirthDate).HasMaxLength(250);
 
-            builder.HasMany(c => c.Quotes) 
-                   .WithOne(q => q.Customer) 
-                   .HasForeignKey(q => q.CustomerId) 
-                   .OnDelete(DeleteBehavior.Restrict); 
+            builder.HasMany(c => c.Quotes)
+               .WithOne(q => q.Customer)
+               .HasForeignKey(q => q.CustomerId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
