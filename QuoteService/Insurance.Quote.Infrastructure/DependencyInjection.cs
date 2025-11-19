@@ -2,6 +2,7 @@
 using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Insurance.Quote.Domain.Interfaces.Ports;
+using Insurance.Quote.Domain.Interfaces.Repositories;
 using Insurance.Quote.Infrastructure.Adapters;
 using Insurance.Quote.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,9 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("QuoteConnection");
 
-        services.AddDbContext<QuoteDbContext>(options =>
+        services.AddDbContext<QuoteContext>(options =>
             options.UseNpgsql(connectionString, b =>
-                b.MigrationsAssembly(typeof(QuoteDbContext).Assembly.FullName))
+                b.MigrationsAssembly(typeof(QuoteContext).Assembly.FullName))
             );
 
         services.AddSingleton<IAmazonSimpleNotificationService>(sp =>
@@ -37,6 +38,8 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IQuoteRepository, QuoteRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IQuoteNotificationPort, QuoteSnsAdapter>();
 
         return services;

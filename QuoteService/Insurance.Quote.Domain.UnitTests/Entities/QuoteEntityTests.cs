@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using System;
 using Quote.Domain.Entities;
+using Insurance.Quote.Domain.Enums;
 
 namespace Insurance.Quote.Domain.UnitTests.Entities
 {

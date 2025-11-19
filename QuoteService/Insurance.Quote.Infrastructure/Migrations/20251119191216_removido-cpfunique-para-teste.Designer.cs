@@ -12,12 +12,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Insurance.Quote.Infrastructure.Migrations
 {
     [DbContext(typeof(QuoteContext))]
-    [Migration("20251119125212_InitialQuoteSchema")]
-    partial class InitialQuoteSchema
+    [Migration("20251119191216_removido-cpfunique-para-teste")]
+    partial class removidocpfuniqueparateste
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
+#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
@@ -31,8 +32,9 @@ namespace Insurance.Quote.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("BirthDate")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
@@ -44,8 +46,7 @@ namespace Insurance.Quote.Infrastructure.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.HasIndex("DocumentNumber")
-                        .IsUnique();
+                    b.HasIndex("DocumentNumber");
 
                     b.ToTable("Customers", (string)null);
                 });
@@ -126,7 +127,7 @@ namespace Insurance.Quote.Infrastructure.Migrations
                     b.HasOne("Quote.Domain.Entities.CustomerEntity", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Quote.Domain.Entities.ProductEntity", null)
@@ -136,7 +137,7 @@ namespace Insurance.Quote.Infrastructure.Migrations
                     b.HasOne("Quote.Domain.Entities.ProductEntity", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");

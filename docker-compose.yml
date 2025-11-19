@@ -1,4 +1,4 @@
-services:
+﻿services:
   localstack:
     container_name: localstack
     image: localstack/localstack:latest
@@ -8,7 +8,6 @@ services:
       SERVICES: sns
       DOCKER_HOST: unix:///var/run/docker.sock
     volumes:
-      # Script para criar o topico SNS
       - /localstack/init-sns.sh:/etc/localstack/init/ready.d/init-sns.sh
 
   # 2. BANCO DE DADOS PARA O QUOTESERVICE
@@ -24,6 +23,21 @@ services:
     volumes:
       - quote_postgres_data:/var/lib/postgresql/data
 
+  # ⭐ MIGRAÇÃO PARA QUOTE ⭐
+  quote-migrator:
+    image: mcr.microsoft.com/dotnet/sdk:10.0 
+    container_name: quote-migrator
+    depends_on:
+      - quote-db 
+    volumes:
+      - .:/app 
+    working_dir: /app/QuoteService/Insurance.Quote.Api 
+    environment:
+      ConnectionStrings__QuoteConnection: "Host=quote-db;Port=5432;Database=quotedb;Username=quoteuser;Password=quotepassword"
+
+    command: sh -c "dotnet tool install dotnet-ef --version 9.0.10 --tool-path /usr/local/bin && /usr/local/bin/dotnet-ef database update --project ../Insurance.Quote.Infrastructure "
+
+    
   # 3. BANCO DE DADOS PARA O POLICYSERVICE
   policy-db:
     image: postgres:15-alpine
@@ -33,25 +47,43 @@ services:
       POSTGRES_PASSWORD: policypassword
       POSTGRES_DB: policydb
     ports:
-      - "5433:5432" 
+      - "5433:5433"
     volumes:
       - policy_postgres_data:/var/lib/postgresql/data
+
+  # ⭐ NOVO SERVIÇO DE MIGRAÇÃO PARA POLICY ⭐
+  policy-migrator:
+    image: mcr.microsoft.com/dotnet/sdk:10.0 
+    container_name: policy-migrator
+    depends_on:
+      - policy-db 
+    volumes:
+      - .:/app 
+    working_dir: /app/PolicyService/Insurance.Policy.Api 
+    environment:
+      ConnectionStrings__PolicyConnection: "Host=policy-db;Port=5433;Database=policydb;Username=policyuser;Password=policypassword"
+
+    command: >
+      sh -c "dotnet tool install dotnet-ef --version 9.0.10 --tool-path /usr/local/bin && /usr/local/bin/dotnet-ef database update --project ../Insurance.Policy.Infrastructure"
+      
 
   # 4. API DO QUOTESERVICE (PropostaService)
   quote-api:
     container_name: quote-api
     build:
       context: .
-      dockerfile: Dockerfile.Quote 
+      dockerfile: Dockerfile.Quote
     ports:
-      - "7150:8080" 
+      - "7150:8080"
     depends_on:
-      - quote-db
+      - quote-migrator 
       - localstack
     environment:
       ConnectionStrings__QuoteConnection: "Host=quote-db;Port=5432;Database=quotedb;Username=quoteuser;Password=quotepassword"
       AWS__ServiceUrl: http://localstack:4566
       AWS__Region: us-east-1
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
 
   # 5. API DO POLICYSERVICE (ContratacaoService)
   policy-api:
@@ -60,14 +92,16 @@ services:
       context: .
       dockerfile: Dockerfile.Policy
     ports:
-      - "7151:8080" 
+      - "7151:8080"
     depends_on:
-      - policy-db
-      - quote-api 
+      - policy-migrator 
+      - quote-api
     environment:
-      ConnectionStrings__PolicyConnection: "Host=policy-db;Port=5432;Database=policydb;Username=policyuser;Password=policypassword"
-      QuoteService__BaseUrl: http://quote-api:8080 
-
+      ConnectionStrings__PolicyConnection: "Host=policy-db;Port=5433;Database=policydb;Username=policyuser;Password=policypassword"
+      QuoteService__BaseUrl: http://quote-api:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      
 volumes:
   quote_postgres_data:
   policy_postgres_data:

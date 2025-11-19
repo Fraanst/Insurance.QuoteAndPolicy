@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Quote.Domain.Entities;
-using System.Reflection; 
+using System.Reflection;
 
 namespace Insurance.Quote.Infrastructure
 {
-    public class QuoteDbContext : DbContext
+    public class QuoteContext : DbContext
     {
-        public QuoteDbContext(DbContextOptions<QuoteDbContext> options) : base(options)
+        public QuoteContext(DbContextOptions<QuoteContext> options) : base(options)
         {
         }
 

@@ -1,4 +1,5 @@
 ﻿using Insurance.Quote.Application.Commands;
+using Insurance.Quote.Domain.Enums;
 
 namespace Insurance.Quote.Application.UnitTests.Commands
 {

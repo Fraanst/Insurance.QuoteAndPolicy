@@ -4,13 +4,18 @@ using Quote.Domain.Interfaces.Repositories;
 using Quote.Application.Handlers;
 using Insurance.Quote.Application.Commands;
 using Insurance.Quote.Domain.Exceptions;
-using Quote.Domain.Entities; 
+using Quote.Domain.Entities;
+using Insurance.Quote.Domain.Interfaces.Repositories;
+using Insurance.Quote.Domain.Enums;
 
 namespace Insurance.Quote.Application.UnitTests.Handlers
 {
     public class CreateQuoteHandlerTests
     {
         private readonly Mock<IQuoteRepository> _quoteRepositoryMock;
+        private readonly Mock<IProductRepository> _productRepositoryMock;
+        private readonly Mock<ICustomerRepository> _customerRepositoryMock;
+
         private readonly Mock<ILogger<CreateQuoteHandler>> _loggerMock;
         private readonly CreateQuoteHandler _handler;
 
@@ -21,10 +26,15 @@ namespace Insurance.Quote.Application.UnitTests.Handlers
         public CreateQuoteHandlerTests()
         {
             _quoteRepositoryMock = new Mock<IQuoteRepository>();
+            _productRepositoryMock = new Mock<IProductRepository>();
+            _customerRepositoryMock = new Mock<ICustomerRepository>();
+
             _loggerMock = new Mock<ILogger<CreateQuoteHandler>>();
 
             _handler = new CreateQuoteHandler(
                 _quoteRepositoryMock.Object,
+                _customerRepositoryMock.Object,
+                _productRepositoryMock.Object,
                 _loggerMock.Object
             );
         }

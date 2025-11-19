@@ -1,4 +1,6 @@
 ﻿
+using Insurance.Quote.Domain.Enums;
+
 public class QuoteStatusTests
 {
     [Fact]

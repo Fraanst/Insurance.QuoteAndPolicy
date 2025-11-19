@@ -12,12 +12,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Insurance.Quote.Infrastructure.Migrations
 {
     [DbContext(typeof(QuoteContext))]
-    [Migration("20251119125212_InitialQuoteSchema")]
-    partial class InitialQuoteSchema
+    [Migration("20251119183624_ajusteNascimento")]
+    partial class ajusteNascimento
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
+#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
@@ -31,8 +32,9 @@ namespace Insurance.Quote.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("BirthDate")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()

@@ -1,21 +1,30 @@
 ﻿using Insurance.Policy.Domain.Entities;
 using Insurance.Policy.Domain.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Insurance.Policy.Infrastructure.Repositories
 {
     public class PolicyRepository : IPolicyRepository
     {
-        public Task<PolicyEntity> ContractQuote(PolicyEntity policy, CancellationToken cancellationToken = default)
+        private readonly PolicyDbContext _context;
+
+        public PolicyRepository(PolicyDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<PolicyEntity> GetPolicyById(Guid policyId, CancellationToken cancellationToken = default)
+        public async Task<PolicyEntity> ContractQuote(PolicyEntity policy, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await _context.Policy.AddAsync(policy, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return policy;
+        }
+
+        public async Task<PolicyEntity> GetPolicyById(Guid policyId, CancellationToken cancellationToken = default)
+        {
+            return await _context.Policy
+                                 .AsNoTracking()
+                                 .FirstOrDefaultAsync(q => q.Id == policyId, cancellationToken);
         }
     }
 }

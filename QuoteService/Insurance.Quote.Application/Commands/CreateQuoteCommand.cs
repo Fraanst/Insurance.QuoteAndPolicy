@@ -1,4 +1,6 @@
-﻿namespace Insurance.Quote.Application.Commands
+﻿using Insurance.Quote.Domain.Enums;
+
+namespace Insurance.Quote.Application.Commands
 {
     public class CreateQuoteCommand
     {

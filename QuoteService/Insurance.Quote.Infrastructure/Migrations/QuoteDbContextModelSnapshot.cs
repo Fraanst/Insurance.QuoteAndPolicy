@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Insurance.Quote.Infrastructure.Migrations
 {
-    [DbContext(typeof(QuoteDbContext))]
+    [DbContext(typeof(QuoteContext))]
     partial class QuoteDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -29,8 +29,9 @@ namespace Insurance.Quote.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("BirthDate")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
@@ -42,8 +43,7 @@ namespace Insurance.Quote.Infrastructure.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.HasIndex("DocumentNumber")
-                        .IsUnique();
+                    b.HasIndex("DocumentNumber");
 
                     b.ToTable("Customers", (string)null);
                 });
@@ -124,7 +124,7 @@ namespace Insurance.Quote.Infrastructure.Migrations
                     b.HasOne("Quote.Domain.Entities.CustomerEntity", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Quote.Domain.Entities.ProductEntity", null)
@@ -134,7 +134,7 @@ namespace Insurance.Quote.Infrastructure.Migrations
                     b.HasOne("Quote.Domain.Entities.ProductEntity", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");

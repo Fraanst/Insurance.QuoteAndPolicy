@@ -11,7 +11,7 @@ namespace Insurance.Quote.Domain.UnitTests.Entities
             var customerId = Guid.NewGuid();
             var name = "Alice Johnson";
             var document = "123.456.789-00";
-            var birthDate = new DateTime(1990, 5, 15);
+            var birthDate = new DateTime(1990, 5, 15).ToShortDateString();
 
             // ACT 
             var customer = new CustomerEntity
@@ -67,7 +67,7 @@ namespace Insurance.Quote.Domain.UnitTests.Entities
             Assert.Null(customer.DocumentNumber);
 
             Assert.Equal(Guid.Empty, customer.CustomerId);
-            Assert.Equal(default(DateTime), customer.BirthDate);
+            Assert.Equal(default(string), customer.BirthDate);
         }
     }
 }

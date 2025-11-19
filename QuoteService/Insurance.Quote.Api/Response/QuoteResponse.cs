@@ -1,4 +1,5 @@
-﻿using Quote.Domain.Entities;
+﻿using Insurance.Quote.Domain.Enums;
+using Quote.Domain.Entities;
 
 namespace Insurance.Quote.Api.Response
 {
