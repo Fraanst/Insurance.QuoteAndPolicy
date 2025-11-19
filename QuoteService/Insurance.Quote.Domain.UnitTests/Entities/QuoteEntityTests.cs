@@ -24,7 +24,7 @@ namespace Insurance.Quote.Domain.UnitTests.Entities
                 CustomerId = customerId,
                 ProductId = productId,
                 InsuranceType = "Residencial",
-                Status = QuoteStatus.New,
+                Status = QuoteStatus.UnderReview,
                 EstimatedValue = estimatedValue,
                 CreatedAt = now,
                 Customer = new CustomerEntity { CustomerId = customerId },
@@ -34,7 +34,7 @@ namespace Insurance.Quote.Domain.UnitTests.Entities
             // ASSERT
             Assert.NotNull(quote);
             Assert.Equal(quoteId, quote.QuoteId);
-            Assert.Equal(QuoteStatus.New, quote.Status);
+            Assert.Equal(QuoteStatus.UnderReview, quote.Status);
             Assert.Equal(estimatedValue, quote.EstimatedValue);
             Assert.Equal(now, quote.CreatedAt);
             Assert.NotNull(quote.Customer);
@@ -64,8 +64,8 @@ namespace Insurance.Quote.Domain.UnitTests.Entities
         public void ChangeStatus_ShouldUpdateStatusWhenCalled()
         {
             // ARRANGE
-            var quote = new QuoteEntity { Status = QuoteStatus.New };
-            var newStatus = QuoteStatus.UnderReview;
+            var quote = new QuoteEntity { Status = QuoteStatus.UnderReview };
+            var newStatus = QuoteStatus.Approved;
 
             // ACT
             quote.ChangeStatus(newStatus);

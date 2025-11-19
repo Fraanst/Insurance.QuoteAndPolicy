@@ -69,7 +69,6 @@ public class ChangeQuoteStatusHandlerTests
     public async Task HandleAsync_WhenStatusChangesIsRejected_ShouldUpdateButNotNotify()
     {
         // ARRANGE
-        var initialStatus = QuoteStatus.UnderReview;
         var newStatus = QuoteStatus.Rejected; 
 
         var mockQuote = new Mock<QuoteEntity>();

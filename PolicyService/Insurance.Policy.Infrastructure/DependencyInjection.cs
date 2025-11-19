@@ -2,7 +2,6 @@
 using Insurance.Policy.Domain.Interfaces.Repositories;
 using Insurance.Policy.Infrastructure.Adapters;
 using Insurance.Policy.Infrastructure.Repositories;
-using Insurance.Quote.Domain.Interfaces.Ports;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
