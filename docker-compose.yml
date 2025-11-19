@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   localstack:
     container_name: localstack
@@ -11,7 +9,7 @@ services:
       DOCKER_HOST: unix:///var/run/docker.sock
     volumes:
       # Script para criar o topico SNS
-      - ./localstack/init-sns.sh:/etc/localstack/init/ready.d/init-sns.sh
+      - /localstack/init-sns.sh:/etc/localstack/init/ready.d/init-sns.sh
 
   # 2. BANCO DE DADOS PARA O QUOTESERVICE
   quote-db:
@@ -43,7 +41,7 @@ services:
   quote-api:
     container_name: quote-api
     build:
-      context: . 
+      context: .
       dockerfile: Dockerfile.Quote 
     ports:
       - "7150:8080" 
@@ -60,7 +58,7 @@ services:
     container_name: policy-api
     build:
       context: .
-      dockerfile: Dockerfile.Policy 
+      dockerfile: Dockerfile.Policy
     ports:
       - "7151:8080" 
     depends_on:
