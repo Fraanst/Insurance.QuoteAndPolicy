@@ -98,7 +98,7 @@
       - quote-api
     environment:
       ConnectionStrings__PolicyConnection: "Host=policy-db;Port=5433;Database=policydb;Username=policyuser;Password=policypassword"
-      QuoteService__BaseUrl: http://quote-api:8080
+      QuoteService__BaseUrl: http://localhost:7150/
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:8080
       
