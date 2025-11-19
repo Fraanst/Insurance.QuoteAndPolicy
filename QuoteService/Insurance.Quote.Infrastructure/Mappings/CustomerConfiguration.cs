@@ -17,6 +17,10 @@ namespace Insurance.Quote.Infrastructure.Mappings
             builder.HasIndex(c => c.DocumentNumber);
             builder.Property(c => c.BirthDate).HasMaxLength(250);
 
+            builder.HasMany(c => c.Quotes)
+               .WithOne(q => q.Customer)
+               .HasForeignKey(q => q.CustomerId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

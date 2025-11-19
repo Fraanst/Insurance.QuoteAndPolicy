@@ -6,13 +6,6 @@ namespace Insurance.Quote.Infrastructure.Mappings
 {
     public class ProductConfiguration : IEntityTypeConfiguration<ProductEntity>
     {
-        private readonly QuoteContext _context;
-
-        public ProductConfiguration(QuoteContext context)
-        {
-            _context = context;
-        }
-
         public void Configure(EntityTypeBuilder<ProductEntity> builder)
         {
             builder.ToTable("Products");
@@ -26,6 +19,10 @@ namespace Insurance.Quote.Infrastructure.Mappings
                 .HasColumnType("decimal(18, 2)")
                 .IsRequired();
 
+            builder.HasMany(p => p.Quotes)
+               .WithOne(q => q.Product)
+               .HasForeignKey(q => q.ProductId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
