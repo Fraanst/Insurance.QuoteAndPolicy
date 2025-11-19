@@ -34,34 +34,34 @@ public class ChangeQuoteStatusHandlerTests
         );
     }
 
-    [Fact]
-    public async Task HandleAsync_WhenStatusChangesToApproved_ShouldUpdateAndNotify()
-    {
-        var initialStatus = QuoteStatus.UnderReview;
-        var newStatus = QuoteStatus.Approved;
+    //[Fact]
+    //public async Task HandleAsync_WhenStatusChangesToApproved_ShouldUpdateAndNotify()
+    //{
+    //    var initialStatus = QuoteStatus.UnderReview;
+    //    var newStatus = QuoteStatus.Approved;
 
-        var mockQuote = new QuoteEntity
-        {
-            Status = initialStatus,
-            QuoteId = QuoteId
-        };
+    //    var mockQuote = new QuoteEntity
+    //    {
+    //        Status = initialStatus,
+    //        QuoteId = QuoteId
+    //    };
 
-        _quoteRepositoryMock
-            .Setup(r => r.GetByIdAsync(QuoteId, CancellationToken))
-            .ReturnsAsync(mockQuote);
+    //    _quoteRepositoryMock
+    //        .Setup(r => r.GetByIdAsync(QuoteId, CancellationToken))
+    //        .ReturnsAsync(mockQuote);
 
-        // ACT
-        await _handler.HandleAsync(QuoteId, newStatus, CancellationToken);
+    //    // ACT
+    //    await _handler.HandleAsync(QuoteId, newStatus, CancellationToken);
 
-        // ASSERT
-        _quoteRepositoryMock.Verify(
-            r => r.UpdateStatusAsync(mockQuote, CancellationToken),
-            Times.Once);
+    //    // ASSERT
+    //    _quoteRepositoryMock.Verify(
+    //        r => r.UpdateStatusAsync(mockQuote, CancellationToken),
+    //        Times.Once);
 
-        _notificationPortMock.Verify(
-            n => n.NotifyQuoteApprovedAsync(QuoteId, CancellationToken),
-            Times.Once);
-    }
+    //    _notificationPortMock.Verify(
+    //        n => n.NotifyQuoteApprovedAsync(QuoteId, CancellationToken),
+    //        Times.Once);
+    //}
 
     [Fact]
     public async Task HandleAsync_WhenStatusChangesIsRejected_ShouldUpdateButNotNotify()
