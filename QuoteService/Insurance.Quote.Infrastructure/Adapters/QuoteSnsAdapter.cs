@@ -20,7 +20,7 @@ namespace Insurance.Quote.Infrastructure.Adapters
 
         public async Task NotifyQuoteApprovedAsync(Guid quoteId, CancellationToken cancellationToken)
         {
-            const string topicArn = "arn:aws:sns:us-east-1:000000000000:quote-approved-topic";
+            const string topicArn = "quote-approved-topic";
 
             var messagePayload = new
             {
