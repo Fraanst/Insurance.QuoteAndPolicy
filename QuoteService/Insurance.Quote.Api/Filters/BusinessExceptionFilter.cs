@@ -1,8 +1,8 @@
-﻿using Insurance.Policy.Domain.Exceptions;
+﻿using Insurance.Quote.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Insurance.Policy.Api.Filters
+namespace Insurance.Quote.Api.Filters
 {
     public class BusinessExceptionFilter : IExceptionFilter
     {
@@ -12,23 +12,23 @@ namespace Insurance.Policy.Api.Filters
             var status = 500;
             var title = "Erro no Servidor";
 
-            if (context.Exception.GetType() == typeof(PolicyException))
+            if (context.Exception.GetType() == typeof(QuoteException))
                 context.HttpContext.Response.StatusCode = 500;
 
-            if (context.Exception.GetType() == typeof(QuoteNotApprovedException))
+            if (context.Exception.GetType() == typeof(QuoteStatusChangeFailedException))
             {
                 context.HttpContext.Response.StatusCode = 422;
                 status = 422;
-                title = "Regra de Negócio Violada";
+                title = "Não é possível alterar o status da cotação";
             }
-
+            
             if (context.Exception.GetType() == typeof(QuoteNotFoundException))
             {
                 context.HttpContext.Response.StatusCode = 404;
                 status = 404;
-                title = "Proposta não encontrada";
+                title = "Cotação não encontrada";
             }
-
+            
             context.Result = new JsonResult(new
             {
                 status,
