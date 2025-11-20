@@ -1,11 +1,13 @@
+using Insurance.Policy.Api.Filters;
 using Insurance.Policy.Api.Mappers;
-using Microsoft.OpenApi;
 using Insurance.Policy.Application;
 using Insurance.Policy.Infrastructure;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
+builder.Services.AddScoped<BusinessExceptionFilter>();
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();

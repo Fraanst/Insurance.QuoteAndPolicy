@@ -2,7 +2,12 @@
 {
     public class PolicyException : DomainException
     {
-        public PolicyException(string message) : base(message) { }
-        public PolicyException(string message, Exception innerException) : base(message, innerException) { }
+        public int StatusCode { get; }
+
+        public PolicyException(string message, int statusCode = 500)
+            : base(message)
+        {
+            StatusCode = statusCode;
+        }
     }
 }

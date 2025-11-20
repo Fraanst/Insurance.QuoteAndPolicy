@@ -3,6 +3,6 @@
     public class QuoteNotApprovedException : PolicyException
     {
         public QuoteNotApprovedException(Guid quoteId)
-            : base($"A proposta com ID {quoteId} não está aprovada.") { }
+            : base($"A Cotação {quoteId} não está aprovada.") { }
     }
 }
