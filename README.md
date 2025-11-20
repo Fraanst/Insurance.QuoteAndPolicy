@@ -107,8 +107,6 @@ quote-db e policy-db (Bancos de Dados) iniciam.
 
 quote-migrator e policy-migrator rodam: Instalam o dotnet-ef dentro do contêiner e aplicam todas as Migrations pendentes.
 
-quote-seeder rodam (após o quote-migrator): Injeta o Customer e o Product iniciais no quote-db.
-
 quote-api e policy-api (APIs) iniciam e ficam prontas para aceitar requisições.
 
 #### A Aplicação adiciona um Produto e um Cliente para que seja possível adicionar uma Proposta
