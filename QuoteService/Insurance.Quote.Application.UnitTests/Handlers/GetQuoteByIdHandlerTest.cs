@@ -56,36 +56,12 @@ public class GetQuoteByIdHandlerTests
             .ReturnsAsync((QuoteEntity)null!);
 
         // ACT
-        var result = await _handler.HandleAsync(NonExistingQuoteId, CancellationToken);
+        var exception = await Assert.ThrowsAsync<QuoteNotFoundException>(
+            () => _handler.HandleAsync(NonExistingQuoteId, CancellationToken));
+
+        Assert.Contains("Proposta não encontrada", exception.Message);
 
         // ASSERT
-        Assert.Null(result);
-
         _quoteRepositoryMock.Verify(r => r.GetByIdAsync(NonExistingQuoteId, CancellationToken), Times.Once);
-    }
-
-
-    [Fact]
-    public async Task HandleAsync_WhenRepositoryThrowsException_ShouldCatchAndThrowQuoteException()
-    {
-        // ARRANGE
-        _quoteRepositoryMock
-            .Setup(r => r.GetByIdAsync(ExistingQuoteId, CancellationToken))
-            .ThrowsAsync(new InvalidOperationException("Erro de conexão simulado."));
-
-        // ACT & ASSERT
-        var exception = await Assert.ThrowsAsync<QuoteException>(
-            () => _handler.HandleAsync(ExistingQuoteId, CancellationToken));
-
-        Assert.Contains("Ocorreu um erro ao tentar buscar uma proposta", exception.Message);
-
-        _loggerMock.Verify(
-            x => x.Log(
-                LogLevel.Error,
-                It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Erro ao alterar buscar uma proposta")),
-                It.IsAny<Exception>(),
-                It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
-            Times.Once);
     }
 }

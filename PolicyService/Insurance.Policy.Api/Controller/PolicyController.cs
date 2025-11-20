@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Insurance.Policy.Api.Filters;
 using Insurance.Policy.Application.Commands;
 using Insurance.Policy.Application.Handlers;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ namespace Proposal.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ServiceFilter(typeof(BusinessExceptionFilter))]
 public class PolicyController(
     ContractQuoteHandler contractQuoteHandler, 
     GetPolicyByIdHandler getPolicyByIdHandler,

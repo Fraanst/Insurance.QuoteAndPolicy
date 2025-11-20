@@ -18,6 +18,7 @@
       POSTGRES_USER: quoteuser
       POSTGRES_PASSWORD: quotepassword
       POSTGRES_DB: quotedb
+      PGPORT: 5432
     ports:
       - "5432:5432"
     volumes:
@@ -46,6 +47,7 @@
       POSTGRES_USER: policyuser
       POSTGRES_PASSWORD: policypassword
       POSTGRES_DB: policydb
+      PGPORT: 5433
     ports:
       - "5433:5433"
     volumes:

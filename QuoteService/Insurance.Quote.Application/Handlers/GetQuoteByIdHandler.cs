@@ -8,15 +8,12 @@ public class GetQuoteByIdHandler(IQuoteRepository quoteRepository, ILogger<GetQu
     public async Task<QuoteEntity?> HandleAsync(Guid id, CancellationToken cancellationToken)
     {
         logger.LogInformation($"Iniciando busca da proposta {id}");
-
-        try
+        var quote =  await quoteRepository.GetByIdAsync(id, cancellationToken);
+        if(quote == null)
         {
-            return await quoteRepository.GetByIdAsync(id, cancellationToken);
+            logger.LogWarning($"Proposta {id} não encontrada");
+            throw new QuoteNotFoundException();
         }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, $"Erro ao alterar buscar uma proposta");
-            throw new QuoteException($"Ocorreu um erro ao tentar buscar uma proposta");
-        }
+        return quote;
     }
 }

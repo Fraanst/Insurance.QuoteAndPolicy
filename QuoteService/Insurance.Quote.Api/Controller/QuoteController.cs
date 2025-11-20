@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
+using Insurance.Quote.Api.Filters;
 using Insurance.Quote.Api.Request;
 using Insurance.Quote.Api.Response;
 using Insurance.Quote.Application.Commands;
 using Insurance.Quote.Application.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Quote.Application.Handlers;
-using Quote.Domain.Entities;
 
 namespace Quote.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ServiceFilter(typeof(BusinessExceptionFilter))]
 public class QuoteController(
     CreateQuoteHandler createHandler,
     ChangeQuoteStatusHandler changeStatusHandler,
@@ -26,7 +27,6 @@ public class QuoteController(
         var quote = await createHandler.HandleAsync(mapper.Map<CreateQuoteCommand>(request), cancellationToken);
 
         var response = mapper.Map<QuoteResponse>(quote);
-
         return CreatedAtAction(nameof(GetById), new { id = response.QuoteId }, response);
     }
 
